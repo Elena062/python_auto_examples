@@ -21,7 +21,7 @@ body_create = {
 
 # Ищем противника для битвы - покемона в покеболе с атакой 1
 def find_opponent(): 
-    response = requests.get(url=f'{base_url}pokemons',params={'in_pokeball':1, 'attack':7}, headers=header)
+    response = requests.get(url=f'{base_url}pokemons',params={'in_pokeball':1, 'attack':1}, headers=header)
     if 'Покемоны не найдены' in response.text:                      
         return '0'
     else:                                                           #Ищем среди найденных покемонов "не наших"
