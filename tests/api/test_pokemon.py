@@ -15,3 +15,8 @@ def test_status_code_trainers():
 def test_my_trainer_name():
     response = requests.get(url=f'{base_url}trainers', params={'trainer_id':trainer_id}, headers=header)
     assert 'trainer_name' in response.text
+
+@pytest.mark.parametrize('key, value', [('trainer_name', 'Crazy'), ('id', f'{trainer_id}')])
+def test_parametrize(key, value):
+    response_parametrize = requests.get(url=f'{base_url}trainers', params={'trainer_id': trainer_id})
+    assert response_parametrize.json()['data'][0][key]==value
