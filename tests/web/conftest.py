@@ -1,4 +1,5 @@
 import pytest
+import requests
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -22,5 +23,12 @@ def browser():
     yield driver                            #позволяет вызывать driver из других мест программы
     driver.quit()
 
-
+@pytest.fixture(scope='function')
+def knockout():
+    HEADER = {'Content-Type':'application/json', 'trainer_token':'8d914b60bbc02f7f30db5b5412313988'}
+    pokemons = requests.get(url = 'https://api.pokemonbattle-stage.ru/v2/pokemons', params = {'trainer_id':2124})
+    for pokemon in pokemons.json()['data']:
+        if pokemon['status'] != 0:
+            requests.post(url='https://api.pokemonbattle-stage.ru/v2/pokemons/knockout',
+                          headers = HEADER, json={"pokemon_id":pokemon['id']})
 
